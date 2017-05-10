@@ -116,8 +116,7 @@ Polymer 1.0 element for socket.io apis
        * @param {string} eventArr[].event - name of the event 
        * @param {function} eventArr[].onEvent - Function to be called when event is triggered
        */
-      registerEvents: function(events)
-      {
+      registerEvents: function(events) {
         var ths = this;
         if (events && Array.isArray(events) && events.length > 0) {
           events.forEach(function(event){
@@ -126,6 +125,16 @@ Polymer 1.0 element for socket.io apis
           });
         }
       },
+      /**
+       * Register a one shot event
+       *
+       * @method registerOnceEvent
+       * @param {string} eventName - the name of the event
+       * @param {function} onEvent - function to be called when the event is triggered
+       */
+      registerOnceEvent: function(eventName, onEvent) {
+        this.socket.once(eventName, onEvent);
+      }
     });
   </script>
 </dom-module>
