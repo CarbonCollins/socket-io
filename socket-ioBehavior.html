@@ -8,7 +8,7 @@
     socket: {
       _socketRef: null,
       /**
-       * 
+       * @method socket.initialise initialises the bahvior and finds the socket element in the dom
        */
       initialise: function() {
         this._socketRef = document.querySelector('socket-io');
@@ -18,32 +18,25 @@
         }
       },
       /**
-       * The socket.connect method triggers connection to the socket.io server
-       *
-       * @method socket.connect
+       * @method socket.connect triggers connection to the socket.io server
        */
       connect: function() {
         this._socketRef.connect();
       },
       /**
-       * The socket.disconnect method triggers disconnection from the socket.io server
-       *
-       * @method socket.disconnect
+       * @method socket.disconnect triggers disconnection from the socket.io server
        */
       disconnect: function() {
         this._socketRef.disconnect();
       },
       /**
-       * The socket.registerEvents method registeres new events to be handled
-       *
-       * @method socket.registerEvents
+       * @method socket.registerEvents registeres new events to be handled
        * @param {array} events - an array of events to registerEvents
        * @param {string} eventArr[].event - name of the event 
        * @param {function} eventArr[].onEvent - Function to be called when event is triggered
        */
       registerEvents: function(events) {
         if (this._socketRef && events && Array.isArray(events) && events.length > 0) {
-          console.log("WE ACTUALLY MADE IT");
           this._socketRef.registerEvents(events);
         } else {
           this.initialise();
@@ -54,9 +47,15 @@
         }
       },
       /**
-       * The socket.emit method sends an event with 'payload' as content and allows optional compression
-       *
-       * @method socket.emit
+       * @method socket.registerOnceEvent register a one shot event
+       * @param {string} eventName the name of the event
+       * @param {function} onEvent function to be called when the event is triggered
+       */
+      registerOnceEvent: function(eventName, onEvent) {
+        this._socketRef.registerOnceEvent(eventName, onEvent);
+      },
+      /**
+       * @method socket.emit sends an event with 'payload' as content and allows optional compression
        * @param {String} event event to send
        * @param {Object} payload the json data to send
        * @param {Boolean} compres the event
