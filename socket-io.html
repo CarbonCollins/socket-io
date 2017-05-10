@@ -37,6 +37,9 @@ Polymer 1.0 element for socket.io apis
         loaded: {
           type: Function
         },
+        socket: {
+          type: Object
+        },
         /**
         * Array with child objects - two properties.
         * event (name of event to trigger on) and onEvent (a callback function).
@@ -84,8 +87,8 @@ Polymer 1.0 element for socket.io apis
 		    this.disconnect();
         this.socket = io.connect(this.endpoint);
         this.isConnected = true;
-        for (let i = 0, iLength = events.length; i < iLength; i += 1) {
-          this.socket.on(events[i].event, events[i].onEvent);
+        for (let i = 0, iLength = this.events.length; i < iLength; i += 1) {
+          this.socket.on(this.events[i].event, this.events[i].onEvent);
         }
 	    },
 	    /**

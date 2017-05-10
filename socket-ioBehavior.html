@@ -35,7 +35,7 @@
        * @param {function} eventArr[].onEvent - Function to be called when event is triggered
        */
       registerEvents: function(events) {
-        if (this._socketRef && events && Array.isArray(events) && events.length > 0) {
+        if (this._socketRef && events && Array.isArray(events) && events.length > 0 && this._socketRef.isConnected) {
           this._socketRef.registerEvents(events);
         } else {
           this.initialise();
@@ -51,7 +51,15 @@
        * @param {function} onEvent function to be called when the event is triggered
        */
       registerOnceEvent: function(eventName, onEvent) {
-        this._socketRef.registerOnceEvent(eventName, onEvent);
+        if (this._socketRef && this._socketRef.isConnected) {
+          this._socketRef.registerOnceEvent(eventName, onEvent);
+        } else {
+          this.initialise();
+          let fn = this.registerOnceEvent.bind(this);
+          setTimeout(function() {
+            fn(eventName, onEvent)
+          }, 1000);
+        }
       },
       /**
        * @method socket.emit sends an event with 'payload' as content and allows optional compression
