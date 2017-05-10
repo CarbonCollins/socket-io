@@ -12,6 +12,17 @@ Polymer 1.0 element for socket.io apis
   <template>
   </template>
   <script>
+    function once(fn, context) { 
+      let result;
+      return function() { 
+        if (fn) {
+          result = fn.apply(context || this, arguments);
+          fn = null;
+        }
+        return result;
+      };
+    }
+
     Polymer({
       is: 'socket-io',
       properties: {
@@ -110,7 +121,7 @@ Polymer 1.0 element for socket.io apis
        * @param {function} onEvent function to be called when the event is triggered
        */
       registerOnceEvent: function(eventName, onEvent) {
-        this.socket.once(eventName, onEvent);
+        this.socket.on(eventName, once(onEvent));
       }
     });
   </script>
